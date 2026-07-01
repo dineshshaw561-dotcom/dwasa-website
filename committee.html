@@ -184,8 +184,9 @@ async function loadCommitteePublic() {
   if (president) leadHtml += leadCardHtml(president, false);
   if (secretary) leadHtml += leadCardHtml(secretary, true);
   leadEl.innerHTML = leadHtml || '<p style="color:var(--gray);">Leadership details coming soon.</p>';
-
   offEl.innerHTML = others.map(officerCardHtml).join('');
+  // Re-run AOS so dynamically added cards become visible
+  if (typeof initAOS === 'function') initAOS();
 }
 
 // Wait for all scripts including Supabase CDN to fully load
