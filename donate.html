@@ -239,6 +239,7 @@ async function loadBankAccounts() {
     return;
   }
   el.innerHTML = data.map(bankCardHtml).join('');
+  if (typeof initAOS === 'function') initAOS();
 }
 window.addEventListener("load", loadBankAccounts);
 </script>
