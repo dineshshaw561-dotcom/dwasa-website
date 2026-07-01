@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Programs — DWASA</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.program-detail {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+  padding: 60px 0;
+  border-bottom: 1px solid rgba(26,92,42,0.08);
+}
+.program-detail:last-child { border-bottom: none; }
+.program-detail.reverse { direction: rtl; }
+.program-detail.reverse > * { direction: ltr; }
+.program-detail .prog-img {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.program-detail .prog-img img { width:100%;height:300px;object-fit:cover; }
+.prog-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; font-weight: 900;
+  color: var(--green-light); line-height: 1;
+  margin-bottom: 4px;
+}
+.prog-detail-content h2 { font-size: 1.8rem; margin-bottom: 14px; }
+.prog-detail-content p { margin-bottom: 12px; font-size: 0.97rem; }
+@media(max-width:800px){
+  .program-detail,.program-detail.reverse { grid-template-columns:1fr;direction:ltr; }
+  .program-detail .prog-img img { height:220px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="images/logo.png" alt="DWASA Logo"><div class="nav-brand-text"><div class="name">DWASA</div><div class="sub">Dunlop Women Association for Social Action</div></div></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li class="nav-dropdown"><a href="programs.html">Our Work ▾</a><div class="dropdown-menu"><a href="programs.html">All Programs</a><a href="activities.html">Activities Report</a></div></li>
+      <li><a href="committee.html">Committee</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="donate.html" class="btn-nav">Donate</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- BANNER -->
+<div class="page-banner">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:rgba(255,255,255,0.9)">Our Programs</span></div>
+    <h1 style="margin-top:12px;">Our Programmes</h1>
+    <p style="color:rgba(255,255,255,0.75);margin-top:10px;max-width:600px;">From road safety to women's empowerment — our programmes are designed to create lasting, systemic change in the communities we serve.</p>
+  </div>
+</div>
+
+<!-- PROGRAM CARDS OVERVIEW -->
+<section class="section" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="tag">At a Glance</div>
+      <h2>What We Do</h2>
+      <p>DWASA runs a wide range of community-led programmes across West Bengal and Jharkhand.</p>
+    </div>
+    <div class="grid-3">
+      <div class="prog-card aos"><div class="prog-icon">🛡️</div><h3>Road Safety Awareness</h3><p>Rallies, workshops, and awareness drives across Kolkata and Jamshedpur educating citizens about traffic safety.</p></div>
+      <div class="prog-card aos delay-1"><div class="prog-icon">👩‍🎓</div><h3>Women Empowerment</h3><p>Skill development, SHG formation, leadership building, and legal awareness for marginalised women.</p></div>
+      <div class="prog-card aos delay-2"><div class="prog-icon">📚</div><h3>Education &amp; Coaching</h3><p>Free coaching for Class 5–12 students, book distribution, and academic support for underprivileged children.</p></div>
+      <div class="prog-card aos"><div class="prog-icon">🍼</div><h3>Mother &amp; Child Care</h3><p>Rural health sessions on maternal nutrition, safe delivery, immunisation, and child development.</p></div>
+      <div class="prog-card aos delay-1"><div class="prog-icon">🏥</div><h3>Health Awareness</h3><p>Free health check-ups and workshops on hygiene, nutrition, anaemia, and preventive healthcare.</p></div>
+      <div class="prog-card aos delay-2"><div class="prog-icon">🪡</div><h3>Handicraft Training</h3><p>Craft-centric skill development — knitting, jute bags, clay models — fostering economic independence.</p></div>
+      <div class="prog-card aos"><div class="prog-icon">🚽</div><h3>Rural Sanitation</h3><p>Construction and installation of toilets in rural villages supported by ONGC CSR initiatives in Jharkhand.</p></div>
+      <div class="prog-card aos delay-1"><div class="prog-icon">💊</div><h3>Drug De-Addiction</h3><p>Dedicated de-addiction centre at Bokaro, Jharkhand, providing treatment to over 32 individuals.</p></div>
+      <div class="prog-card aos delay-2"><div class="prog-icon">🎭</div><h3>Cultural Programmes</h3><p>Social and cultural functions promoting creativity, teamwork, and holistic development among students.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED PROGRAMS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="tag">In Detail</div>
+      <h2>Programme Highlights</h2>
+    </div>
+
+    <!-- Road Safety -->
+    <div class="program-detail aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">01</div>
+        <div class="tag">Community Safety</div>
+        <h2>Road Safety Awareness Programme</h2>
+        <p>DWASA has been at the forefront of road safety advocacy in Kolkata and Jharkhand. We organise rallies, community walks, and poster campaigns to educate pedestrians, cyclists, motorists, and school students about traffic rules and road hazards.</p>
+        <p>In 2023, DWASA conducted a road safety programme with school students on Kolkata roads (17 January, 2023). In 2024–25, the programme was expanded to Jamshedpur, Jharkhand, where at least 200 people participated.</p>
+        <p>Our team distributes safety literature, engages Kolkata Police, and uses mobile awareness vehicles with loudspeakers to maximise reach in public spaces.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img13.png" alt="Road Safety Rally">
+      </div>
+    </div>
+
+    <!-- Women Empowerment -->
+    <div class="program-detail reverse aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">02</div>
+        <div class="tag">Empowerment</div>
+        <h2>Women Empowerment Programme</h2>
+        <p>DWASA's women empowerment initiatives focus on skill development, self-reliance, leadership building, legal awareness, financial literacy, and awareness of women's rights and government welfare schemes.</p>
+        <p>Training sessions and workshops help women acquire vocational skills, improve decision-making, and gain the confidence to participate actively in family and community affairs. We also encourage the formation and strengthening of Self-Help Groups (SHGs) to support income-generating activities.</p>
+        <p>Through these initiatives, many beneficiaries have reported increased self-confidence, improved economic independence, and greater awareness of their rights and responsibilities.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img07.png" alt="Women Labour Awareness">
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="program-detail aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">03</div>
+        <div class="tag">Education</div>
+        <h2>Free Coaching &amp; Book Distribution</h2>
+        <p>DWASA operates a free coaching centre for underprivileged students from Class 5 to Class 12 in Kolkata. Experienced teachers provide personalised academic guidance to help students prepare for board and competitive examinations.</p>
+        <p>The organisation also distributes free school books, notebooks, and stationery to needy students — ensuring that economic hardship never becomes a barrier to education. In 2024–25, over 50 students directly benefited from the book distribution drive.</p>
+        <p>DWASA also distributes free new clothes to school-going children from BPL families during the Durga Puja festival, bringing joy and dignity to 65+ students each year.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img09.png" alt="Girl students in classroom">
+      </div>
+    </div>
+
+    <!-- Mother & Child -->
+    <div class="program-detail reverse aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">04</div>
+        <div class="tag">Healthcare</div>
+        <h2>Mother &amp; Child Care Programme</h2>
+        <p>DWASA's Mother &amp; Child Care Programme focuses on improving the health and well-being of mothers and young children from economically disadvantaged communities in rural West Bengal.</p>
+        <p>The programme covers maternal health, safe pregnancy practices, institutional delivery, post-natal care, child nutrition, immunisation, breastfeeding, hygiene, and prevention of common childhood diseases. In 2024–25, more than 200 mothers and children benefited directly.</p>
+        <p>In 2022–23, DWASA distributed fruits and Vitamin D supplements to 30 women and children at R.G. Kar Medical College &amp; Hospital on 1st July, 2023.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img06.png" alt="Children meal programme">
+      </div>
+    </div>
+
+    <!-- Health Awareness -->
+    <div class="program-detail aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">05</div>
+        <div class="tag">Health</div>
+        <h2>Health Awareness Programme</h2>
+        <p>Incidence of disease is significantly reduced by health awareness. DWASA provides health education to underprivileged communities with limited access to information, empowering individuals with knowledge to choose healthy habits.</p>
+        <p>Focus areas include health &amp; hygiene, hand washing, menstrual hygiene, oral hygiene, nutrition, dengue, breastfeeding, anaemia, tobacco sensitisation, immunisation, cancer, and mental health. Qualified doctors, health workers, and resource persons conduct interactive sessions using visual aids and real-life examples.</p>
+        <p>Free basic health check-ups — including blood pressure, blood sugar, haemoglobin, and BMI — are also provided during selected programmes.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img02.png" alt="Health workshop">
+      </div>
+    </div>
+
+    <!-- Sanitation / ONGC -->
+    <div class="program-detail reverse aos">
+      <div class="prog-detail-content">
+        <div class="prog-number">06</div>
+        <div class="tag">Rural Development</div>
+        <h2>Rural Sanitation — ONGC CSR</h2>
+        <p>In partnership with ONGC as a CSR initiative, DWASA has constructed and installed household toilets for marginalised families in Chandaha Panchayat, Bokaro District, Jharkhand.</p>
+        <p>Each toilet is numbered and geo-tagged with beneficiary details to ensure accountability and transparency. This initiative has significantly improved sanitation access and dignity for underprivileged rural households.</p>
+        <p>DWASA has also distributed essential relief supplies, masks, sanitisers, and medical equipment to CHC hospitals in Khunti and Arki blocks of Jharkhand.</p>
+      </div>
+      <div class="prog-img">
+        <img src="images/img17.png" alt="Sanitation Programme ONGC" style="height:300px;object-fit:cover;">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--green-light);padding:60px 0;">
+  <div class="container" style="text-align:center;">
+    <div class="tag">Support Our Work</div>
+    <h2 style="color:var(--green-dark);margin:12px 0;">Help Us Reach More Communities</h2>
+    <p style="max-width:500px;margin:0 auto 28px;">Your donation directly funds these life-changing programmes. Every rupee matters.</p>
+    <a href="donate.html" class="btn btn-primary">Donate Now</a>
+    &nbsp;&nbsp;
+    <a href="volunteer.html" class="btn btn-outline">Volunteer With Us</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="images/logo.png" alt="DWASA"><p style="margin-top:12px;">A registered NGO dedicated to empowering women, children, and marginalised communities across West Bengal and Jharkhand.</p><p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);">Regd. No. S/89627 of 1997-98 &nbsp;|&nbsp; PAN: AAATD7893C</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="programs.html">Our Programs</a></li><li><a href="activities.html">Activities Report</a></li><li><a href="committee.html">Managing Committee</a></li><li><a href="gallery.html">Gallery</a></li></ul></div>
+      <div class="footer-col"><h4>Get Involved</h4><ul><li><a href="donate.html">Donate</a></li><li><a href="volunteer.html">Volunteer</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><p>156A/58A, B.T. Road, Kolkata – 700108<br>West Bengal, India</p><p><a href="tel:9875608056">+91 98756 08056</a></p><p><a href="mailto:dunlopwomen.18@gmail.com">dunlopwomen.18@gmail.com</a></p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Dunlop Women Association for Social Action. All rights reserved.</p><p style="color:rgba(255,255,255,0.35);">80G Approved &nbsp;|&nbsp; 12A Registered &nbsp;|&nbsp; <a href="admin.html" style="color:rgba(255,255,255,0.35);text-decoration:underline;">Admin</a></p></div>
+  </div>
+</footer>
+
+<div class="toast"></div>
+<script src="main.js"></script>
+</body>
+</html>

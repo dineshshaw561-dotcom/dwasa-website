@@ -1,0 +1,160 @@
+====================================================
+DWASA WEBSITE — EMAIL SETUP GUIDE (EmailJS)
+====================================================
+
+EmailJS lets your contact & volunteer forms send emails
+directly to dunlopwomen.18@gmail.com — completely free
+for up to 200 emails/month, no server needed.
+
+----------------------------------------------------
+STEP 1: Create a FREE EmailJS account
+----------------------------------------------------
+1. Go to https://www.emailjs.com/
+2. Click "Sign Up Free"
+3. Use your email: dunlopwomen.18@gmail.com
+4. Verify your email
+
+----------------------------------------------------
+STEP 2: Add Gmail as Email Service
+----------------------------------------------------
+1. In EmailJS dashboard → "Email Services" → "Add New Service"
+2. Choose "Gmail"
+3. Click "Connect Account" → sign in with dunlopwomen.18@gmail.com
+4. Name it: dwasa_service
+5. Click "Create Service"
+6. Copy your SERVICE ID (looks like: service_xxxxxxx)
+
+----------------------------------------------------
+STEP 3: Create Email Templates
+----------------------------------------------------
+
+--- Template 1: Contact Form ---
+1. Go to "Email Templates" → "Create New Template"
+2. Name it: dwasa_contact
+3. Subject: [DWASA Website] New Contact Message — {{subject}}
+4. Body (paste this):
+---
+New message from the DWASA website contact form:
+
+Name: {{from_name}}
+Email: {{from_email}}
+Mobile: {{mobile}}
+Subject: {{subject}}
+
+Message:
+{{message}}
+
+---
+Sent from DWASA Website Contact Form
+---
+5. To Email: dunlopwomen.18@gmail.com
+6. Save template — copy TEMPLATE ID
+
+--- Template 2: Volunteer Form ---
+1. Create another template
+2. Name it: dwasa_volunteer
+3. Subject: [DWASA] New Volunteer Registration — {{from_name}}
+4. Body:
+---
+New Volunteer Registration from DWASA website:
+
+Name: {{from_name}}
+Email: {{email}}
+Mobile: {{mobile}}
+Age: {{age}}
+Occupation: {{occupation}}
+City: {{city}}
+Areas of Interest: {{areas}}
+Availability: {{availability}}
+
+Experience:
+{{experience}}
+
+Motivation:
+{{motivation}}
+
+---
+Sent from DWASA Volunteer Registration Form
+---
+5. Save — copy TEMPLATE ID
+
+----------------------------------------------------
+STEP 4: Get Your Public Key
+----------------------------------------------------
+1. Go to "Account" → "General"
+2. Copy your PUBLIC KEY (looks like: user_xxxxxxxxxxxxxxx)
+
+----------------------------------------------------
+STEP 5: Update Your Website Files
+----------------------------------------------------
+
+In contact.html — find this line near the bottom:
+    emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+Replace with:
+    emailjs.init('YOUR_ACTUAL_PUBLIC_KEY');
+
+Also find:
+    emailjs.send('dwasa_service','dwasa_contact', ...
+Make sure 'dwasa_service' matches your Service ID.
+
+In volunteer.html — same changes.
+
+----------------------------------------------------
+STEP 6: Test It
+----------------------------------------------------
+1. Open contact.html in browser
+2. Fill and submit the form
+3. Check dunlopwomen.18@gmail.com inbox
+4. You should receive the email within seconds!
+
+----------------------------------------------------
+ADMIN DASHBOARD
+----------------------------------------------------
+URL: your-website.com/admin.html
+Password: DWASA@2025  ← CHANGE THIS!
+
+To change password:
+1. Open admin.html in a text editor
+2. Find this line:
+   const ADMIN_PASSWORD = 'DWASA@2025';
+3. Replace 'DWASA@2025' with your new password
+4. Save the file
+
+----------------------------------------------------
+MAINTENANCE TIPS
+----------------------------------------------------
+
+To update text/content:
+→ Open the relevant .html file in any text editor
+→ Find the text, change it, save
+
+To add gallery photos:
+→ Copy image to images/ folder
+→ Open gallery.html
+→ Copy an existing .gallery-item block, change the src
+
+To change bank details:
+→ Open donate.html in text editor
+→ Find the bank-row sections and update
+
+To update committee members:
+→ Open committee.html and edit the member-card sections
+
+FILES IN THIS WEBSITE:
+- index.html      → Home page
+- about.html      → About Us
+- programs.html   → Our Programs
+- activities.html → Activities Reports (2022-23, 2024-25)
+- committee.html  → Managing Committee
+- gallery.html    → Photo Gallery
+- donate.html     → Donate page
+- volunteer.html  → Volunteer Registration
+- contact.html    → Contact Us
+- admin.html      → Admin Dashboard
+- style.css       → All styles (colors, fonts, layout)
+- main.js         → Shared JavaScript
+- images/         → All photos and logo
+
+====================================================
+Need help? Contact your web developer.
+====================================================

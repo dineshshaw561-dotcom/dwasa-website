@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWASA — Dunlop Women Association for Social Action</title>
+<meta name="description" content="Empowering women, children and marginalised communities in West Bengal and Jharkhand since 1989.">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Home-specific */
+.programs-preview { background: var(--gray-light); }
+.testimonial-section { background: var(--green-dark); }
+.testimonial-section h2 { color: var(--white); }
+.testimonial-section .tag { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
+.quote-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius);
+  padding: 32px;
+  color: var(--white);
+}
+.quote-card p { color: rgba(255,255,255,0.88); font-size: 1.05rem; font-style: italic; line-height: 1.8; }
+.quote-card .author { margin-top: 20px; display: flex; align-items: center; gap: 12px; }
+.quote-card .author-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--green-accent);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1.1rem; color: var(--white);
+}
+.quote-card .author-info .name { color: var(--white); font-weight: 600; font-size: 0.95rem; }
+.quote-card .author-info .role { color: rgba(255,255,255,0.6); font-size: 0.82rem; }
+
+.cta-section {
+  background: linear-gradient(135deg, var(--green-light), #c9e8d2);
+  padding: 80px 0;
+}
+.cta-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+}
+.cta-text h2 { color: var(--green-dark); }
+.cta-text p { color: var(--charcoal); max-width: 500px; }
+.cta-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.news-strip {
+  background: var(--green-dark);
+  padding: 14px 0;
+  overflow: hidden;
+}
+.news-ticker {
+  display: flex; gap: 60px;
+  animation: ticker 25s linear infinite;
+  white-space: nowrap;
+}
+.news-ticker span { color: var(--white); font-size: 0.9rem; }
+.news-ticker span::before { content: '◆ '; color: var(--green-accent); }
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.feature-image-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 200px 200px;
+  gap: 12px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.feature-image-grid .fi {
+  overflow: hidden; position: relative;
+}
+.feature-image-grid .fi:first-child {
+  grid-row: span 2;
+}
+.feature-image-grid .fi img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s;
+}
+.feature-image-grid .fi:hover img { transform: scale(1.06); }
+
+.mission-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+}
+@media(max-width:800px){
+  .mission-split { grid-template-columns: 1fr; }
+  .feature-image-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .feature-image-grid .fi:first-child { grid-row: span 1; height: 240px; }
+  .feature-image-grid .fi { height: 200px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NEWS TICKER -->
+<div class="news-strip">
+  <div class="news-ticker" id="ticker">
+    <span>Registered NGO — Regd. No. S/89627 of 1997-98</span>
+    <span>80G Approved — Tax-exempt donations welcome</span>
+    <span>Active in West Bengal &amp; Jharkhand</span>
+    <span>Road Safety Awareness Programme 2024–25</span>
+    <span>Mother &amp; Child Care Programme ongoing</span>
+    <span>Free Coaching Centre for underprivileged students</span>
+    <span>Registered NGO — Regd. No. S/89627 of 1997-98</span>
+    <span>80G Approved — Tax-exempt donations welcome</span>
+    <span>Active in West Bengal &amp; Jharkhand</span>
+    <span>Road Safety Awareness Programme 2024–25</span>
+    <span>Mother &amp; Child Care Programme ongoing</span>
+    <span>Free Coaching Centre for underprivileged students</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo.png" alt="DWASA Logo">
+      <div class="nav-brand-text">
+        <div class="name">DWASA</div>
+        <div class="sub">Dunlop Women Association for Social Action</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li class="nav-dropdown">
+        <a href="programs.html">Our Work ▾</a>
+        <div class="dropdown-menu">
+          <a href="programs.html">All Programs</a>
+          <a href="activities.html">Activities Report</a>
+        </div>
+      </li>
+      <li><a href="committee.html">Committee</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="donate.html" class="btn-nav">Donate</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Est. 1989 &nbsp;|&nbsp; Kolkata, West Bengal</div>
+      <h1>Empowering <span>Women</span> &amp; Children for a Better Tomorrow</h1>
+      <p>DWASA works tirelessly to break the cycle of poverty through education, health awareness, women empowerment, and community development across West Bengal and Jharkhand.</p>
+      <div class="hero-btns">
+        <a href="donate.html" class="btn btn-white">❤ Donate Now</a>
+        <a href="about.html" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">35+</div>
+          <div class="lbl">Years of Service</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">5000+</div>
+          <div class="lbl">Lives Impacted</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">15+</div>
+          <div class="lbl">Active Programs</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">2</div>
+          <div class="lbl">States Covered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="images/img05.png" alt="DWASA Programme">
+  </div>
+</section>
+
+<!-- MISSION SECTION -->
+<section class="section">
+  <div class="container">
+    <div class="mission-split">
+      <div class="aos">
+        <div class="tag">Who We Are</div>
+        <h2>A Voluntary Organisation Rooted in Compassion</h2>
+        <p style="margin:16px 0;">Founded in 1989 and registered under the West Bengal Society Act 1961, Dunlop Women Association for Social Action (DWASA) has been at the forefront of community development — empowering marginalised women, children, and families across Bengal and Jharkhand.</p>
+        <p>We believe that every person has the right to access resources and opportunities to live with dignity. From rural sanitation to urban road safety, our work spans communities, borders, and generations.</p>
+        <div class="highlight-box" style="margin-top:28px;">
+          <p>"From the marginalised beneficiary in a remote village to the People's organisations, we see the beginning of transformational changes as our people start walking with a new purpose."</p>
+        </div>
+        <a href="about.html" class="btn btn-primary" style="margin-top:24px;">Read Our Story</a>
+      </div>
+      <div class="feature-image-grid aos delay-2">
+        <div class="fi"><img src="images/img01.png" alt="Youth Empowerment Program"></div>
+        <div class="fi"><img src="images/img09.png" alt="Girl students classroom"></div>
+        <div class="fi"><img src="images/img06.png" alt="Child nutrition program"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item aos">
+        <div class="number" data-count="5000" data-suffix="+">0</div>
+        <div class="label">Beneficiaries Reached</div>
+      </div>
+      <div class="stat-item aos delay-1">
+        <div class="number" data-count="200" data-suffix="+">0</div>
+        <div class="label">Mothers &amp; Children Helped</div>
+      </div>
+      <div class="stat-item aos delay-2">
+        <div class="number" data-count="35" data-suffix="+">0</div>
+        <div class="label">Women Trained in Handicrafts</div>
+      </div>
+      <div class="stat-item aos delay-3">
+        <div class="number" data-count="50" data-suffix="+">0</div>
+        <div class="label">Students Given Free Books</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAMS PREVIEW -->
+<section class="section programs-preview">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="tag">What We Do</div>
+      <h2>Our Core Programmes</h2>
+      <p>From education to road safety, our programmes touch every dimension of community well-being.</p>
+    </div>
+    <div class="grid-3">
+      <div class="prog-card aos">
+        <div class="prog-icon">🛡️</div>
+        <h3>Road Safety Awareness</h3>
+        <p>Rallies, posters, and workshops across Kolkata and Jharkhand to reduce road fatalities and build a safety-first culture.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+      <div class="prog-card aos delay-1">
+        <div class="prog-icon">👩‍🎓</div>
+        <h3>Women Empowerment</h3>
+        <p>Vocational training, self-help groups, legal awareness, and financial literacy for women from marginalised backgrounds.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+      <div class="prog-card aos delay-2">
+        <div class="prog-icon">📚</div>
+        <h3>Education &amp; Free Coaching</h3>
+        <p>Free coaching for Class 5–12 students, book distribution, and academic support for underprivileged children.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+      <div class="prog-card aos delay-1">
+        <div class="prog-icon">🍼</div>
+        <h3>Mother &amp; Child Care</h3>
+        <p>Health awareness sessions on maternal care, nutrition, immunisation and child health for 200+ mothers across rural Bengal.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+      <div class="prog-card aos delay-2">
+        <div class="prog-icon">🏥</div>
+        <h3>Health Awareness</h3>
+        <p>Free health check-ups, workshops on hygiene, menstrual health, anaemia, and nutrition for underprivileged communities.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+      <div class="prog-card aos delay-3">
+        <div class="prog-icon">🪡</div>
+        <h3>Handicraft Training</h3>
+        <p>Knitting, jute bags, clay modelling and other craft skills taught to women — fostering self-reliance and income generation.</p>
+        <a href="programs.html" style="display:inline-block;margin-top:14px;color:var(--green-dark);font-weight:600;font-size:0.9rem;">Learn more →</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <a href="programs.html" class="btn btn-primary">View All Programs</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="tag">In Action</div>
+      <h2>Our Work in Pictures</h2>
+      <p>A glimpse into the lives we've touched and the programmes we've run across two states.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;" class="aos">
+      <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:1;"><img src="images/img13.png" alt="Road Safety" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:1;"><img src="images/img05.png" alt="Women Programme" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:1;"><img src="images/img01.png" alt="Youth Programme" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div style="border-radius:var(--radius);overflow:hidden;aspect-ratio:1;"><img src="images/img10.png" alt="Relief Distribution" style="width:100%;height:100%;object-fit:cover;"></div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a href="gallery.html" class="btn btn-outline">View Full Gallery</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECRETARY QUOTE -->
+<section class="section testimonial-section">
+  <div class="container">
+    <div class="section-header text-center">
+      <div class="tag">From Our Leadership</div>
+      <h2>Message from the Secretary</h2>
+    </div>
+    <div style="max-width:760px;margin:0 auto;">
+      <div class="quote-card aos">
+        <p>"This year has been a journey of commitment, compassion, and collective effort. With the continued guidance of our Executive Committee and the tireless dedication of our members and volunteers, our organisation has worked steadily towards its core mission — empowering women, promoting social justice, and supporting the health, education, and dignity of marginalised communities."</p>
+        <div class="author">
+          <div class="author-avatar">D</div>
+          <div class="author-info">
+            <div class="name">Dinesh Kumar Saw</div>
+            <div class="role">Secretary, DWASA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-text">
+        <div class="tag">Make a Difference</div>
+        <h2>Your Support Creates Change</h2>
+        <p>Every donation — big or small — directly funds education, health, and empowerment programmes for thousands of people in need.</p>
+      </div>
+      <div class="cta-btns">
+        <a href="donate.html" class="btn btn-primary">Donate Now</a>
+        <a href="volunteer.html" class="btn btn-outline">Volunteer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="images/logo.png" alt="DWASA">
+        <p style="margin-top:12px;">Dunlop Women Association for Social Action is a registered non-governmental voluntary social organisation dedicated to empowering women and children in West Bengal and Jharkhand.</p>
+        <p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);">Regd. No. S/89627 of 1997-98 &nbsp;|&nbsp; PAN: AAATD7893C</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="programs.html">Our Programs</a></li>
+          <li><a href="activities.html">Activities Report</a></li>
+          <li><a href="committee.html">Managing Committee</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="donate.html">Donate</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>156A/58A, B.T. Road, Kolkata – 700108<br>West Bengal, India</p>
+        <p><a href="tel:9875608056">+91 98756 08056</a></p>
+        <p><a href="tel:9831316293">+91 98313 16293</a></p>
+        <p><a href="mailto:dunlopwomen.18@gmail.com">dunlopwomen.18@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Dunlop Women Association for Social Action. All rights reserved.</p>
+      <p style="color:rgba(255,255,255,0.35);">80G Approved &nbsp;|&nbsp; 12A Registered &nbsp;|&nbsp; <a href="admin.html" style="color:rgba(255,255,255,0.35);text-decoration:underline;">Admin</a></p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast"></div>
+<script src="main.js"></script>
+</body>
+</html>

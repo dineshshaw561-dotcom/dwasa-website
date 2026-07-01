@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Managing Committee — DWASA</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.committee-hero-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+  margin-bottom: 48px;
+}
+.lead-card {
+  background: var(--white);
+  border: 1px solid rgba(26,92,42,0.12);
+  border-radius: 16px; padding: 36px 32px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.lead-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--green-dark), var(--green-accent));
+}
+.lead-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.lead-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 700; color: var(--white);
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(26,92,42,0.25);
+}
+.lead-card .role-badge {
+  display: inline-block;
+  background: var(--green-dark); color: var(--white);
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 4px 14px; border-radius: 20px;
+  margin-bottom: 14px;
+}
+.lead-card h2 { font-size: 1.4rem; margin-bottom: 4px; }
+.lead-card .occ { color: var(--green-mid); font-size: 0.9rem; font-weight: 500; margin-bottom: 20px; }
+.detail-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.detail-row .dk { font-size: 0.82rem; font-weight: 600; color: var(--gray); min-width: 70px; }
+.detail-row .dv { font-size: 0.9rem; color: var(--charcoal); }
+.detail-row a { color: var(--green-dark); }
+
+.exec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+@media(max-width:900px){ .committee-hero-grid { grid-template-columns: 1fr; } }
+@media(max-width:700px){ .exec-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:500px){ .exec-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="images/logo.png" alt="DWASA Logo"><div class="nav-brand-text"><div class="name">DWASA</div><div class="sub">Dunlop Women Association for Social Action</div></div></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li class="nav-dropdown"><a href="programs.html">Our Work ▾</a><div class="dropdown-menu"><a href="programs.html">All Programs</a><a href="activities.html">Activities Report</a></div></li>
+      <li><a href="committee.html">Committee</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="donate.html" class="btn-nav">Donate</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-banner">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:rgba(255,255,255,0.9)">Managing Committee</span></div>
+    <h1 style="margin-top:12px;">Managing Committee</h1>
+    <p style="color:rgba(255,255,255,0.75);margin-top:10px;max-width:600px;">Meet the dedicated governing body steering DWASA's mission of social action and community development.</p>
+  </div>
+</div>
+
+
+<section class="section">
+  <div class="container">
+
+    <!-- President & Secretary — lead cards -->
+    <div class="section-header" style="margin-bottom:32px;">
+      <div class="tag">Leadership</div>
+      <h2>President &amp; Secretary</h2>
+    </div>
+
+    <div class="committee-hero-grid" id="leadershipGrid">
+      <p style="color:var(--gray);">Loading committee members...</p>
+    </div>
+
+    <!-- Other Officers -->
+    <div class="section-header" style="margin-top:48px;margin-bottom:32px;">
+      <div class="tag">Officers</div>
+      <h2>Asst. Secretary, Treasurer &amp; Executive Members</h2>
+    </div>
+
+    <div class="exec-grid" id="officersGrid"></div>
+
+  </div>
+</section>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="images/logo.png" alt="DWASA"><p style="margin-top:12px;">A registered NGO dedicated to empowering women, children, and marginalised communities across West Bengal and Jharkhand.</p><p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);">Regd. No. S/89627 of 1997-98 &nbsp;|&nbsp; PAN: AAATD7893C</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="programs.html">Our Programs</a></li><li><a href="activities.html">Activities Report</a></li><li><a href="committee.html">Managing Committee</a></li><li><a href="gallery.html">Gallery</a></li></ul></div>
+      <div class="footer-col"><h4>Get Involved</h4><ul><li><a href="donate.html">Donate</a></li><li><a href="volunteer.html">Volunteer</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><p>156A/58A, B.T. Road, Kolkata – 700108<br>West Bengal, India</p><p><a href="tel:9875608056">+91 98756 08056</a></p><p><a href="mailto:dunlopwomen.18@gmail.com">dunlopwomen.18@gmail.com</a></p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Dunlop Women Association for Social Action. All rights reserved.</p><p style="color:rgba(255,255,255,0.35);">80G Approved &nbsp;|&nbsp; 12A Registered &nbsp;|&nbsp; <a href="admin.html" style="color:rgba(255,255,255,0.35);text-decoration:underline;">Admin</a></p></div>
+  </div>
+</footer>
+
+<div class="toast"></div>
+<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+function initial(name) { return (name || '?').trim().charAt(0).toUpperCase(); }
+
+function leadCardHtml(m, altColor) {
+  return `
+    <div class="lead-card aos">
+      <div class="lead-avatar"${altColor ? ` style="background:linear-gradient(135deg,#0e3d1a,var(--green-dark));"` : ''}>${initial(m.name)}</div>
+      <div class="role-badge">${m.role}</div>
+      <h2>${m.name}</h2>
+      <div class="occ">${m.occupation || ''}</div>
+      <div class="detail-row"><span class="dk">Address</span><span class="dv">${m.address}</span></div>
+      ${m.dob ? `<div class="detail-row"><span class="dk">DOB</span><span class="dv">${m.dob}</span></div>` : ''}
+      <div class="detail-row"><span class="dk">Mobile</span><span class="dv"><a href="tel:${m.phone}">+91 ${m.phone}</a></span></div>
+      ${m.email ? `<div class="detail-row"><span class="dk">Email</span><span class="dv"><a href="mailto:${m.email}">${m.email}</a></span></div>` : ''}
+    </div>`;
+}
+
+function officerCardHtml(m) {
+  return `
+    <div class="member-card aos">
+      <div class="member-avatar">${initial(m.name)}</div>
+      <div class="role">${m.role}</div>
+      <h3>${m.name}</h3>
+      <div class="info">
+        <div>${m.occupation || ''}</div>
+        <div>${m.address}</div>
+        ${m.dob ? `<div>DOB: ${m.dob}</div>` : ''}
+      </div>
+      <div class="contact" style="margin-top:12px;">
+        <a href="tel:${m.phone}">+91 ${m.phone}</a><br>
+        ${m.email ? `<a href="mailto:${m.email}" style="font-size:0.82rem;">${m.email}</a>` : ''}
+      </div>
+    </div>`;
+}
+
+async function loadCommitteePublic() {
+  const { data, error } = await supabaseClient
+    .from('committee_members')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  const leadEl = document.getElementById('leadershipGrid');
+  const offEl = document.getElementById('officersGrid');
+
+  if (error || !data || !data.length) {
+    leadEl.innerHTML = '<p style="color:var(--gray);">Committee details will be updated shortly.</p>';
+    offEl.innerHTML = '';
+    return;
+  }
+
+  const president = data.find(m => /president/i.test(m.role));
+  const secretary = data.find(m => /secretary/i.test(m.role) && !/asst|assistant/i.test(m.role));
+  const others = data.filter(m => m !== president && m !== secretary);
+
+  let leadHtml = '';
+  if (president) leadHtml += leadCardHtml(president, false);
+  if (secretary) leadHtml += leadCardHtml(secretary, true);
+  leadEl.innerHTML = leadHtml || '<p style="color:var(--gray);">Leadership details coming soon.</p>';
+
+  offEl.innerHTML = others.map(officerCardHtml).join('');
+}
+
+// Wait for all scripts including Supabase CDN to fully load
+window.addEventListener("load", loadCommitteePublic);
+</script>
+</body>
+</html>

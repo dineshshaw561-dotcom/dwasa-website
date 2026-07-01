@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate — DWASA</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.donate-layout { display: grid; grid-template-columns: 3fr 2fr; gap: 48px; align-items: start; }
+.impact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.impact-card {
+  background: var(--green-light);
+  border-radius: var(--radius); padding: 20px;
+  text-align: center;
+}
+.impact-card .amount { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; color:var(--green-dark); }
+.impact-card p { font-size:0.82rem; color:var(--charcoal); margin-top:4px; }
+.bank-section { margin-bottom: 32px; }
+.bank-section h3 { font-size:1.1rem; margin-bottom:16px; color:var(--green-dark); border-bottom:2px solid var(--green-light); padding-bottom:8px; }
+.bank-row { display:flex; align-items:center; padding:12px 0; border-bottom:1px solid #eef3ef; gap:12px; }
+.bank-row:last-child { border-bottom:none; }
+.bank-row .lbl { font-size:0.85rem; font-weight:600; color:var(--gray); min-width:140px; }
+.bank-row .val { font-size:0.95rem; color:var(--charcoal); flex:1; }
+.bank-row .copy-btn { background:none; border:1.5px solid var(--green-mid); color:var(--green-mid); padding:3px 12px; border-radius:20px; cursor:pointer; font-size:0.78rem; font-weight:600; transition:var(--transition); white-space:nowrap; }
+.bank-row .copy-btn:hover { background:var(--green-dark); color:var(--white); border-color:var(--green-dark); }
+.sticky-box { position:sticky; top:100px; }
+.tax-note { background:var(--green-dark); color:var(--white); border-radius:var(--radius); padding:24px; margin-top:24px; }
+.tax-note h4 { color:var(--white); margin-bottom:8px; }
+.tax-note p { color:rgba(255,255,255,0.82); font-size:0.9rem; }
+.why-card { background:var(--white); border:1px solid rgba(26,92,42,0.1); border-radius:var(--radius); padding:20px; margin-bottom:12px; display:flex; gap:14px; align-items:flex-start; }
+.why-card .wi { font-size:1.6rem; flex-shrink:0; }
+.why-card h4 { font-size:1rem; margin-bottom:4px; }
+.why-card p { font-size:0.88rem; }
+@media(max-width:900px){ .donate-layout{grid-template-columns:1fr;} .sticky-box{position:static;} }
+@media(max-width:500px){ .impact-cards{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="images/logo.png" alt="DWASA Logo"><div class="nav-brand-text"><div class="name">DWASA</div><div class="sub">Dunlop Women Association for Social Action</div></div></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li class="nav-dropdown"><a href="programs.html">Our Work ▾</a><div class="dropdown-menu"><a href="programs.html">All Programs</a><a href="activities.html">Activities Report</a></div></li>
+      <li><a href="committee.html">Committee</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="donate.html" class="btn-nav">Donate</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="page-banner">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:rgba(255,255,255,0.9)">Donate</span></div>
+    <h1 style="margin-top:12px;">Support Our Mission</h1>
+    <p style="color:rgba(255,255,255,0.75);margin-top:10px;max-width:580px;">Your generosity directly funds education, health, and empowerment programmes for thousands of people who need it most.</p>
+  </div>
+</div>
+
+<!-- IMPACT STRIP -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="number" data-count="5000" data-suffix="+">0</div><div class="label">Lives Impacted</div></div>
+      <div class="stat-item"><div class="number" data-count="35" data-suffix="+">0</div><div class="label">Years of Service</div></div>
+      <div class="stat-item"><div class="number" data-count="200" data-suffix="+">0</div><div class="label">Mothers & Children Helped</div></div>
+      <div class="stat-item"><div class="number" data-count="100" data-suffix="%">0</div><div class="label">Transparent Utilisation</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="donate-layout">
+
+      <!-- LEFT: Bank Details -->
+      <div>
+        <div class="tag aos">Donate via Bank Transfer</div>
+        <h2 class="aos" style="margin-bottom:8px;">Bank Account Details</h2>
+        <p class="aos" style="margin-bottom:28px;">Transfer directly to DWASA's registered bank account. Please share your name and purpose after transfer so we can acknowledge your donation.</p>
+
+        <!-- What Your Donation Does -->
+        <div class="impact-cards aos">
+          <div class="impact-card">
+            <div class="amount">₹500</div>
+            <p>Provides books & stationery for one student</p>
+          </div>
+          <div class="impact-card">
+            <div class="amount">₹1,000</div>
+            <p>Funds one month of free coaching for a child</p>
+          </div>
+          <div class="impact-card">
+            <div class="amount">₹2,500</div>
+            <p>Covers health check-up camp for 10 women</p>
+          </div>
+          <div class="impact-card">
+            <div class="amount">₹5,000</div>
+            <p>Sponsors vocational training for one woman</p>
+          </div>
+        </div>
+
+        <!-- Bank Accounts (dynamic) -->
+        <div id="bankAccountsContainer">
+          <p style="color:var(--gray);">Loading bank details...</p>
+        </div>
+
+        <!-- After donating -->
+        <div class="highlight-box aos" style="margin-top:24px;">
+          <p>📧 After making a transfer, please email us at <strong>dunlopwomen.18@gmail.com</strong> or WhatsApp <strong>+91 98756 08056</strong> with your name, amount, and transaction ID so we can send you a receipt and 80G certificate.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT: Sticky sidebar -->
+      <div class="sticky-box">
+        <div class="donate-card aos">
+          <h3 style="margin-bottom:16px;color:var(--green-dark);">Organisation Details</h3>
+          <div class="bank-row" style="border-bottom:1px solid #eef3ef;">
+            <span class="lbl">PAN Number</span>
+            <span class="val">AAATD7893C</span>
+            <button class="copy-btn" onclick="copyText('AAATD7893C',this)">Copy</button>
+          </div>
+          <div class="bank-row" style="border-bottom:1px solid #eef3ef;">
+            <span class="lbl">Regd. No.</span>
+            <span class="val">S/89627 of 1997-98</span>
+          </div>
+          <div class="bank-row" style="border-bottom:1px solid #eef3ef;">
+            <span class="lbl">12A Reg.</span>
+            <span class="val">Provisional — 17-02-2026</span>
+          </div>
+          <div class="bank-row">
+            <span class="lbl">80G Status</span>
+            <span class="val" style="color:var(--green-dark);font-weight:600;">✅ Approved</span>
+          </div>
+        </div>
+
+        <div class="tax-note aos">
+          <h4>💚 Tax Benefit — 80G</h4>
+          <p>DWASA is registered under Section 80G of the Income Tax Act. Your donations are eligible for tax exemption. We will issue an 80G certificate upon request.</p>
+        </div>
+
+        <div style="margin-top:24px;">
+          <h3 style="margin-bottom:16px;color:var(--green-dark);">Why Donate to DWASA?</h3>
+          <div class="why-card aos">
+            <div class="wi">🏛️</div>
+            <div><h4>Registered & Trusted</h4><p>Officially registered NGO since 1997-98 under the West Bengal Society Act.</p></div>
+          </div>
+          <div class="why-card aos delay-1">
+            <div class="wi">🔍</div>
+            <div><h4>Fully Transparent</h4><p>Annual activity reports published. Every rupee is accounted for and used for social good.</p></div>
+          </div>
+          <div class="why-card aos delay-2">
+            <div class="wi">📍</div>
+            <div><h4>Grassroots Impact</h4><p>We work directly with communities — no intermediaries, maximum impact on the ground.</p></div>
+          </div>
+          <div class="why-card aos delay-3">
+            <div class="wi">💼</div>
+            <div><h4>CSR Partnerships</h4><p>Trusted partner for ONGC CSR and Government of India sponsored programmes.</p></div>
+          </div>
+        </div>
+
+        <div style="background:var(--green-light);border-radius:var(--radius);padding:20px;margin-top:20px;text-align:center;">
+          <p style="font-size:0.9rem;color:var(--charcoal);margin-bottom:12px;">Have questions about donating?</p>
+          <a href="contact.html" class="btn btn-primary" style="width:100%;justify-content:center;">Contact Us</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="images/logo.png" alt="DWASA"><p style="margin-top:12px;">A registered NGO dedicated to empowering women, children, and marginalised communities across West Bengal and Jharkhand.</p><p style="margin-top:12px;font-size:0.82rem;color:rgba(255,255,255,0.4);">Regd. No. S/89627 of 1997-98 &nbsp;|&nbsp; PAN: AAATD7893C</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="programs.html">Our Programs</a></li><li><a href="activities.html">Activities Report</a></li><li><a href="committee.html">Managing Committee</a></li><li><a href="gallery.html">Gallery</a></li></ul></div>
+      <div class="footer-col"><h4>Get Involved</h4><ul><li><a href="donate.html">Donate</a></li><li><a href="volunteer.html">Volunteer</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><p>156A/58A, B.T. Road, Kolkata – 700108<br>West Bengal, India</p><p><a href="tel:9875608056">+91 98756 08056</a></p><p><a href="mailto:dunlopwomen.18@gmail.com">dunlopwomen.18@gmail.com</a></p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Dunlop Women Association for Social Action. All rights reserved.</p><p style="color:rgba(255,255,255,0.35);">80G Approved &nbsp;|&nbsp; 12A Registered &nbsp;|&nbsp; <a href="admin.html" style="color:rgba(255,255,255,0.35);text-decoration:underline;">Admin</a></p></div>
+  </div>
+</footer>
+
+<div class="toast"></div>
+<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+function bankCardHtml(b) {
+  return `
+    <div class="donate-card aos" style="margin-bottom:20px;">
+      <div class="bank-section">
+        <h3>🏦 ${b.label}</h3>
+        <div class="bank-row">
+          <span class="lbl">Account Name</span>
+          <span class="val">${b.account_name}</span>
+          <button class="copy-btn" onclick="copyText('${b.account_name.replace(/'/g,"\\'")}',this)">Copy</button>
+        </div>
+        <div class="bank-row">
+          <span class="lbl">Account Number</span>
+          <span class="val">${b.account_number}</span>
+          <button class="copy-btn" onclick="copyText('${b.account_number}',this)">Copy</button>
+        </div>
+        <div class="bank-row">
+          <span class="lbl">Bank Name</span>
+          <span class="val">${b.bank_name}</span>
+        </div>
+        <div class="bank-row">
+          <span class="lbl">Branch</span>
+          <span class="val">${b.branch}</span>
+        </div>
+        <div class="bank-row">
+          <span class="lbl">IFSC Code</span>
+          <span class="val">${b.ifsc}</span>
+          <button class="copy-btn" onclick="copyText('${b.ifsc}',this)">Copy</button>
+        </div>
+        <div class="bank-row">
+          <span class="lbl">Account Type</span>
+          <span class="val">${b.account_type}</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function loadBankAccounts() {
+  const el = document.getElementById('bankAccountsContainer');
+  const { data, error } = await supabaseClient
+    .from('bank_accounts')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  if (error || !data || !data.length) {
+    el.innerHTML = '<p style="color:var(--gray);">Bank details will be updated shortly. Please contact us directly.</p>';
+    return;
+  }
+  el.innerHTML = data.map(bankCardHtml).join('');
+}
+window.addEventListener("load", loadBankAccounts);
+</script>
+</body>
+</html>

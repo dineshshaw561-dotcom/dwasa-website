@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — DWASA</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body { background:#f0f4f1; }
+
+/* ---- LOGIN ---- */
+.login-screen {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--green-dark),#0e3d1a);
+}
+.login-box {
+  background:var(--white); border-radius:20px;
+  padding:48px 40px; max-width:420px; width:100%;
+  box-shadow:0 24px 80px rgba(0,0,0,0.3);
+  text-align:center;
+}
+.login-box img { height:72px; margin:0 auto 16px; }
+.login-box h2 { margin-bottom:4px; }
+.login-box p { font-size:0.9rem; margin-bottom:28px; }
+.login-box input {
+  width:100%; padding:14px 18px; border:1.5px solid #dde8df;
+  border-radius:8px; font-size:1rem; outline:none; margin-bottom:14px;
+  transition:border-color .25s;
+}
+.login-box input:focus { border-color:var(--green-mid); box-shadow:0 0 0 3px rgba(45,138,71,0.12); }
+.login-error { color:#d32f2f; font-size:0.88rem; display:none; margin-bottom:12px; }
+.btn-login { width:100%; padding:14px; background:var(--green-dark); color:var(--white); border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer; transition:var(--transition); }
+.btn-login:hover { background:var(--green-mid); }
+
+/* ---- DASHBOARD ---- */
+.dashboard { display:none; }
+.dash-header {
+  background:var(--white); padding:14px 28px;
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:var(--shadow); position:sticky; top:0; z-index:100;
+}
+.dash-header .logo-area { display:flex; align-items:center; gap:12px; }
+.dash-header .logo-area img { height:44px; }
+.dash-header h1 { font-size:1.2rem; color:var(--green-dark); }
+.dash-header .header-actions { display:flex; gap:12px; align-items:center; }
+.dash-layout { display:grid; grid-template-columns:240px 1fr; min-height:calc(100vh - 73px); }
+
+/* Sidebar */
+.dash-sidebar { background:var(--green-dark); padding:20px 0; }
+.dash-sidebar .menu-label { padding:8px 20px; font-size:0.72rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:16px; }
+.dash-sidebar a {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 20px; color:rgba(255,255,255,0.75);
+  font-size:0.93rem; text-decoration:none;
+  transition:var(--transition); border-left:3px solid transparent;
+}
+.dash-sidebar a:hover, .dash-sidebar a.active { background:rgba(255,255,255,0.1); color:var(--white); border-left-color:var(--green-accent); }
+.dash-sidebar a .icon { font-size:1.1rem; }
+
+/* Content area */
+.dash-content { padding:28px; overflow-y:auto; }
+.dash-panel { display:none; }
+.dash-panel.active { display:block; }
+
+/* Stats row */
+.dash-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+.dstat { background:var(--white); border-radius:12px; padding:20px; box-shadow:var(--shadow); border-left:4px solid var(--green-dark); }
+.dstat .val { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--green-dark); line-height:1; }
+.dstat .lbl { font-size:0.82rem; color:var(--gray); margin-top:4px; }
+
+/* Cards */
+.dash-card { background:var(--white); border-radius:12px; padding:24px; box-shadow:var(--shadow); margin-bottom:20px; }
+.dash-card h3 { font-size:1.05rem; margin-bottom:16px; color:var(--green-dark); border-bottom:1px solid var(--green-light); padding-bottom:10px; }
+
+/* Table */
+.dash-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+.dash-table th { background:var(--green-light); color:var(--green-dark); padding:10px 14px; text-align:left; font-weight:600; }
+.dash-table td { padding:10px 14px; border-bottom:1px solid #eef3ef; vertical-align:top; }
+.dash-table tr:last-child td { border-bottom:none; }
+.dash-table tr:hover td { background:#f9fbf9; }
+.status-badge { padding:3px 10px; border-radius:20px; font-size:0.78rem; font-weight:600; }
+.status-new { background:#e3f2fd; color:#1565c0; }
+.status-read { background:var(--green-light); color:var(--green-dark); }
+
+/* Form edits */
+.edit-field { margin-bottom:16px; }
+.edit-field label { display:block; font-size:0.82rem; font-weight:600; color:var(--gray); margin-bottom:4px; }
+.edit-field input, .edit-field textarea { width:100%; padding:10px 14px; border:1.5px solid #dde8df; border-radius:8px; font-size:0.93rem; outline:none; transition:border-color .25s; }
+.edit-field input:focus, .edit-field textarea:focus { border-color:var(--green-mid); }
+.edit-field textarea { min-height:80px; resize:vertical; }
+.btn-save { background:var(--green-dark); color:var(--white); border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-size:0.93rem; font-weight:600; transition:var(--transition); }
+.btn-save:hover { background:var(--green-mid); }
+.btn-danger { background:#d32f2f; color:var(--white); border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:0.82rem; }
+.btn-sm { padding:6px 14px; border-radius:6px; font-size:0.82rem; border:none; cursor:pointer; }
+.btn-sm-green { background:var(--green-light); color:var(--green-dark); font-weight:600; }
+
+/* Gallery admin */
+.admin-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
+.admin-gitem { position:relative; border-radius:8px; overflow:hidden; background:var(--white); border:1px solid rgba(26,92,42,0.1); box-shadow:var(--shadow); }
+.admin-gitem img { width:100%; height:120px; object-fit:cover; display:block; }
+.admin-gitem .del-btn { position:absolute; top:6px; right:6px; background:rgba(211,47,47,0.9); color:var(--white); border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:0.9rem; display:flex; align-items:center; justify-content:center; }
+.admin-gitem .edit-gal-btn { position:absolute; top:6px; left:6px; background:rgba(26,92,42,0.9); color:var(--white); border:none; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; justify-content:center; }
+.admin-gitem .gal-meta { padding:6px 8px; font-size:0.75rem; color:var(--gray); }
+.admin-gitem .gal-meta strong { display:block; color:var(--charcoal); font-size:0.8rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Gallery edit modal */
+.gal-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; }
+.gal-modal-overlay.open { display:flex; }
+.gal-modal { background:var(--white); border-radius:16px; padding:32px; max-width:400px; width:90%; box-shadow:0 24px 80px rgba(0,0,0,0.3); }
+.gal-modal h3 { margin-bottom:20px; color:var(--green-dark); }
+.gal-modal-img { width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:16px; }
+
+@media(max-width:900px){ .dash-layout{grid-template-columns:1fr;} .dash-sidebar{display:none;} .dash-stats{grid-template-columns:1fr 1fr;} }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <img src="images/logo.png" alt="DWASA">
+    <h2>Admin Login</h2>
+    <p style="color:var(--gray);">DWASA Website Management Panel</p>
+    <div class="login-error" id="loginError">❌ Incorrect email or password. Please try again.</div>
+    <input type="email" id="emailInput" placeholder="Admin email" autocomplete="username" style="margin-bottom:10px;">
+    <input type="password" id="pwdInput" placeholder="Enter admin password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">Login →</button>
+    <p style="margin-top:14px;"><a href="#" onclick="showForgotScreen(event)" style="font-size:0.85rem;color:var(--green-mid);">Forgot password?</a></p>
+    <p style="margin-top:10px;font-size:0.8rem;color:#ccc;">Authorised personnel only</p>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD SCREEN -->
+<div class="login-screen" id="forgotScreen" style="display:none;">
+  <div class="login-box">
+    <img src="images/logo.png" alt="DWASA">
+    <h2>Reset Password</h2>
+    <p style="color:var(--gray);">Enter your admin email and we'll send you a reset link.</p>
+    <div id="forgotMsg" style="display:none;padding:12px;border-radius:8px;font-size:0.88rem;margin-bottom:12px;"></div>
+    <input type="email" id="forgotEmail" placeholder="Admin email" autocomplete="username" style="margin-bottom:10px;">
+    <button class="btn-login" id="forgotBtn" onclick="sendPasswordReset()">Send Reset Link →</button>
+    <p style="margin-top:14px;"><a href="#" onclick="showLoginScreen(event)" style="font-size:0.85rem;color:var(--green-mid);">← Back to Login</a></p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <!-- Top Header -->
+  <div class="dash-header">
+    <div class="logo-area">
+      <img src="images/logo.png" alt="DWASA">
+      <h1>Admin Dashboard</h1>
+    </div>
+    <div class="header-actions">
+      <span style="font-size:0.85rem;color:var(--gray);" id="adminEmailLabel">Welcome, Admin</span>
+      <a href="index.html" class="btn btn-outline" style="padding:8px 16px;font-size:0.85rem;">View Site</a>
+      <button onclick="doLogout()" class="btn btn-primary" style="padding:8px 16px;font-size:0.85rem;">Logout</button>
+    </div>
+  </div>
+
+  <div class="dash-layout">
+    <!-- Sidebar -->
+    <nav class="dash-sidebar">
+      <div class="menu-label">Main</div>
+      <a href="#" class="active" onclick="showPanel('overview',this)" ><span class="icon">📊</span> Overview</a>
+      <a href="#" onclick="showPanel('messages',this)"><span class="icon">✉️</span> Messages</a>
+      <a href="#" onclick="showPanel('volunteers',this)"><span class="icon">🤝</span> Volunteers</a>
+      <a href="#" onclick="showPanel('donations',this)"><span class="icon">💚</span> Donations</a>
+      <a href="#" onclick="showPanel('bank',this)"><span class="icon">🏦</span> Bank Details</a>
+
+      <div class="menu-label">Content</div>
+      <a href="#" onclick="showPanel('gallery',this)"><span class="icon">🖼️</span> Gallery</a>
+      <a href="#" onclick="showPanel('committee',this)"><span class="icon">👥</span> Committee</a>
+      <a href="#" onclick="showPanel('reports',this)"><span class="icon">📄</span> Annual Reports</a>
+
+      <div class="menu-label">Settings</div>
+      <a href="#" onclick="showPanel('settings',this)"><span class="icon">🔐</span> Account Settings</a>
+
+      <div class="menu-label">Quick Links</div>
+      <a href="programs.html" target="_blank"><span class="icon">📋</span> Programs Page</a>
+      <a href="activities.html" target="_blank"><span class="icon">📄</span> Activities Report</a>
+      <a href="committee.html" target="_blank"><span class="icon">👥</span> Committee Page</a>
+      <a href="donate.html" target="_blank"><span class="icon">💚</span> Donate Page</a>
+    </nav>
+
+    <!-- Content -->
+    <div class="dash-content">
+
+      <!-- OVERVIEW -->
+      <div class="dash-panel active" id="panel-overview">
+        <h2 style="margin-bottom:20px;">Dashboard Overview</h2>
+        <div class="dash-stats">
+          <div class="dstat"><div class="val" id="msgCount">0</div><div class="lbl">Total Messages</div></div>
+          <div class="dstat"><div class="val" id="newMsgCount">0</div><div class="lbl">New Messages</div></div>
+          <div class="dstat"><div class="val" id="volCount">0</div><div class="lbl">Volunteer Registrations</div></div>
+          <div class="dstat"><div class="val" id="donationTotal">₹0</div><div class="lbl">Total Donations (Paid)</div></div>
+        </div>
+
+        <div class="dash-card">
+          <h3>📋 Recent Messages</h3>
+          <div id="overviewMessages"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+
+        <div class="dash-card">
+          <h3>🤝 Recent Volunteer Registrations</h3>
+          <div id="overviewVolunteers"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+
+        <div class="dash-card">
+          <h3>🔗 Quick Actions</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <a href="contact.html" target="_blank" class="btn btn-outline" style="font-size:0.88rem;padding:8px 18px;">View Contact Page</a>
+            <a href="volunteer.html" target="_blank" class="btn btn-outline" style="font-size:0.88rem;padding:8px 18px;">View Volunteer Page</a>
+            <a href="gallery.html" target="_blank" class="btn btn-outline" style="font-size:0.88rem;padding:8px 18px;">View Gallery</a>
+            <a href="donate.html" target="_blank" class="btn btn-outline" style="font-size:0.88rem;padding:8px 18px;">View Donate Page</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="dash-panel" id="panel-messages">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <h2>Contact Messages</h2>
+        </div>
+        <div class="dash-card">
+          <div id="messagesList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- VOLUNTEERS -->
+      <div class="dash-panel" id="panel-volunteers">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <h2>Volunteer Registrations</h2>
+        </div>
+        <div class="dash-card">
+          <div id="volunteersList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- DONATIONS -->
+      <div class="dash-panel" id="panel-donations">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <h2>Donations</h2>
+        </div>
+        <div class="dash-card">
+          <div id="donationsList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- BANK DETAILS -->
+      <div class="dash-panel" id="panel-bank">
+        <h2 style="margin-bottom:20px;">Bank Details</h2>
+        <p style="color:var(--gray);font-size:0.9rem;margin-bottom:20px;">These details appear on the public Donate page. Add, edit, or remove bank accounts below.</p>
+        <div class="dash-card">
+          <h3 id="bankFormTitle">Add / Update Bank Account</h3>
+          <input type="hidden" id="bankId">
+          <div class="edit-field"><label>Label *</label><input type="text" id="bankLabel" placeholder="e.g. Primary Account — Kolkata"></div>
+          <div class="edit-field"><label>Account Name *</label><input type="text" id="bankAccName" placeholder="e.g. Dunlop Women Association for Social Action"></div>
+          <div class="edit-field"><label>Account Number *</label><input type="text" id="bankAccNumber" placeholder="e.g. 35472892691"></div>
+          <div class="edit-field"><label>Bank Name *</label><input type="text" id="bankName" placeholder="e.g. State Bank of India"></div>
+          <div class="edit-field"><label>Branch *</label><input type="text" id="bankBranch" placeholder="e.g. Dunlop Branch, Kolkata"></div>
+          <div class="edit-field"><label>IFSC Code *</label><input type="text" id="bankIfsc" placeholder="e.g. SBIN0003614"></div>
+          <div class="edit-field"><label>Account Type *</label><input type="text" id="bankAccType" placeholder="e.g. Savings Account"></div>
+          <div class="edit-field"><label>Display Order</label><input type="number" id="bankOrder" placeholder="0" value="0"></div>
+          <button class="btn-save" onclick="saveBankAccount()" id="bankSaveBtn">💾 Save Bank Account</button>
+          <button class="btn-sm" style="margin-left:8px;background:#eee;" onclick="resetBankForm()">Clear Form</button>
+        </div>
+        <div class="dash-card">
+          <h3>Current Bank Accounts</h3>
+          <div id="bankList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT SETTINGS -->
+      <div class="dash-panel" id="panel-settings">
+        <h2 style="margin-bottom:20px;">Account Settings</h2>
+        <div class="dash-card" style="max-width:480px;">
+          <h3>Change Password</h3>
+          <p style="color:var(--gray);font-size:0.85rem;margin-bottom:16px;">You must enter your current password before setting a new one.</p>
+          <div class="edit-field"><label>Current Password *</label><input type="password" id="currentPwd" placeholder="Enter your current password" autocomplete="current-password"></div>
+          <div class="edit-field"><label>New Password *</label><input type="password" id="newPwd1" placeholder="At least 6 characters" autocomplete="new-password"></div>
+          <div class="edit-field"><label>Confirm New Password *</label><input type="password" id="newPwd2" placeholder="Re-enter new password" autocomplete="new-password"></div>
+          <button class="btn-save" onclick="changeAdminPassword()" id="changePwdBtn">🔐 Update Password</button>
+        </div>
+      </div>
+
+      <!-- GALLERY MANAGEMENT -->
+      <div class="dash-panel" id="panel-gallery">
+        <h2 style="margin-bottom:20px;">Gallery Management</h2>
+        <div class="dash-card">
+          <h3>Upload New Photo</h3>
+          <div class="edit-field"><label>Title / Caption</label><input type="text" id="galTitle" placeholder="e.g. Health Camp 2025"></div>
+          <div class="edit-field"><label>Category</label>
+            <select id="galCategory">
+              <option value="education">Education</option>
+              <option value="safety">Road Safety</option>
+              <option value="women">Women Programs</option>
+              <option value="relief">Relief &amp; CSR</option>
+            </select>
+          </div>
+          <div class="edit-field"><label>Image File</label><input type="file" id="galFile" accept="image/*"></div>
+          <button class="btn-save" onclick="uploadGalleryImage()" id="galUploadBtn">📤 Upload</button>
+        </div>
+        <div class="dash-card">
+          <h3>Current Gallery Photos</h3>
+          <div class="admin-gallery" id="adminGallery"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- COMMITTEE MANAGEMENT -->
+      <div class="dash-panel" id="panel-committee">
+        <h2 style="margin-bottom:20px;">Committee Members</h2>
+        <div class="dash-card">
+          <h3>Add / Update Member</h3>
+          <input type="hidden" id="commId">
+          <div class="edit-field"><label>Name *</label><input type="text" id="commName" placeholder="e.g. Mrs. Jane Doe"></div>
+          <div class="edit-field"><label>Role *</label><input type="text" id="commRole" placeholder="e.g. President"></div>
+          <div class="edit-field"><label>Occupation</label><input type="text" id="commOccupation" placeholder="e.g. Social Work"></div>
+          <div class="edit-field"><label>Phone Number *</label><input type="tel" id="commPhone" placeholder="e.g. 9831316293"></div>
+          <div class="edit-field"><label>Email</label><input type="email" id="commEmail" placeholder="e.g. name@example.com"></div>
+          <div class="edit-field"><label>Address *</label><input type="text" id="commAddress" placeholder="e.g. 4, Star Lane, Kolkata – 700006"></div>
+          <div class="edit-field"><label>Date of Birth</label><input type="text" id="commDob" placeholder="e.g. 31 July 1973"></div>
+          <div class="edit-field"><label>Bio</label><textarea id="commBio" placeholder="Short bio"></textarea></div>
+          <div class="edit-field"><label>Display Order</label><input type="number" id="commOrder" placeholder="0" value="0"></div>
+          <div class="edit-field"><label>Photo File (optional)</label><input type="file" id="commFile" accept="image/*"></div>
+          <button class="btn-save" onclick="saveCommitteeMember()" id="commSaveBtn">💾 Save Member</button>
+          <button class="btn-sm" style="margin-left:8px;background:#eee;" onclick="resetCommitteeForm()">Clear Form</button>
+        </div>
+        <div class="dash-card">
+          <h3>Current Members</h3>
+          <div id="committeeList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- ANNUAL REPORTS -->
+      <div class="dash-panel" id="panel-reports">
+        <h2 style="margin-bottom:20px;">Annual Reports</h2>
+        <div class="dash-card">
+          <h3>Upload New Report</h3>
+          <div class="edit-field"><label>Title</label><input type="text" id="repTitle" placeholder="e.g. Annual Report 2024-25"></div>
+          <div class="edit-field"><label>Year</label><input type="text" id="repYear" placeholder="e.g. 2024-25"></div>
+          <div class="edit-field"><label>PDF File</label><input type="file" id="repFile" accept="application/pdf"></div>
+          <button class="btn-save" onclick="uploadReport()" id="repUploadBtn">📤 Upload</button>
+        </div>
+        <div class="dash-card">
+          <h3>Current Reports</h3>
+          <div id="reportsList"><p style="color:var(--gray);font-size:0.9rem;">Loading...</p></div>
+        </div>
+      </div>
+
+    </div><!-- end dash-content -->
+  </div><!-- end dash-layout -->
+</div><!-- end dashboard -->
+
+<!-- GALLERY EDIT MODAL -->
+<div class="gal-modal-overlay" id="galEditModal">
+  <div class="gal-modal">
+    <h3>✏️ Edit Gallery Image</h3>
+    <img src="" alt="" class="gal-modal-img" id="galEditPreview">
+    <input type="hidden" id="galEditId">
+    <div class="edit-field"><label>Caption</label><input type="text" id="galEditCaption" placeholder="e.g. Health Camp 2025"></div>
+    <div class="edit-field"><label>Category</label>
+      <select id="galEditCategory">
+        <option value="education">Education</option>
+        <option value="safety">Road Safety</option>
+        <option value="women">Women Programs</option>
+        <option value="relief">Relief &amp; CSR</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn-save" onclick="saveGalleryEdit()" id="galEditSaveBtn">💾 Save Changes</button>
+      <button class="btn-sm" style="background:#eee;" onclick="closeGalleryEdit()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast"></div>
+<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script>
+// =====================================================
+// AUTH
+// =====================================================
+async function doLogin() {
+  const email = document.getElementById('emailInput').value.trim();
+  const pwd   = document.getElementById('pwdInput').value;
+  const btn   = document.getElementById('loginBtn');
+  const errEl = document.getElementById('loginError');
+
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Logging in...';
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pwd });
+
+  btn.disabled = false;
+  btn.textContent = 'Login →';
+
+  if (error) {
+    errEl.textContent = '❌ ' + error.message;
+    errEl.style.display = 'block';
+    document.getElementById('pwdInput').value = '';
+    return;
+  }
+
+  enterDashboard(data.user);
+}
+
+function showForgotScreen(e) {
+  e.preventDefault();
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('forgotScreen').style.display = 'flex';
+  document.getElementById('forgotEmail').value = document.getElementById('emailInput').value || '';
+  document.getElementById('forgotMsg').style.display = 'none';
+}
+
+function showLoginScreen(e) {
+  e.preventDefault();
+  document.getElementById('forgotScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+async function sendPasswordReset() {
+  const email = document.getElementById('forgotEmail').value.trim();
+  const btn = document.getElementById('forgotBtn');
+  const msgEl = document.getElementById('forgotMsg');
+
+  if (!email) {
+    msgEl.style.background = '#fdecea';
+    msgEl.style.color = '#d32f2f';
+    msgEl.textContent = 'Please enter your admin email address.';
+    msgEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/reset-password.html'
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Send Reset Link →';
+  msgEl.style.display = 'block';
+
+  if (error) {
+    msgEl.style.background = '#fdecea';
+    msgEl.style.color = '#d32f2f';
+    msgEl.textContent = '❌ ' + error.message;
+  } else {
+    msgEl.style.background = 'var(--green-light)';
+    msgEl.style.color = 'var(--green-dark)';
+    msgEl.textContent = '✅ Reset link sent! Check your email inbox and click the link to set a new password.';
+    btn.disabled = true;
+    btn.textContent = 'Link Sent ✓';
+  }
+}
+
+async function doLogout() {
+  await supabaseClient.auth.signOut();
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('emailInput').value = '';
+}
+
+function enterDashboard(user) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('adminEmailLabel').textContent = 'Welcome, ' + (user.email || 'Admin');
+  loadData();
+}
+
+// On page load, check if already logged in (session persists)
+(async function checkSession() {
+  const { data } = await supabaseClient.auth.getSession();
+  if (data.session && data.session.user) {
+    enterDashboard(data.session.user);
+  }
+})();
+
+// ---- NAVIGATION ----
+function showPanel(name, link) {
+  document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.dash-sidebar a').forEach(a => a.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (link) link.classList.add('active');
+}
+
+// =====================================================
+// LOAD ALL DATA
+// =====================================================
+async function loadData() {
+  await Promise.all([
+    loadMessages(),
+    loadVolunteers(),
+    loadDonations(),
+    loadGallery(),
+    loadCommittee(),
+    loadReports(),
+    loadBankAccountsAdmin()
+  ]);
+}
+
+// =====================================================
+// MESSAGES
+// =====================================================
+async function loadMessages() {
+  const { data, error } = await supabaseClient
+    .from('contact_messages')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) { console.error(error); return; }
+
+  document.getElementById('msgCount').textContent = data.length;
+  document.getElementById('newMsgCount').textContent = data.filter(m => m.status === 'new').length;
+
+  renderOverviewMessages(data.slice(0, 5));
+  renderMessages(data);
+}
+
+function renderOverviewMessages(msgs) {
+  const el = document.getElementById('overviewMessages');
+  if (!msgs.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No messages yet.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th><th>Status</th></tr></thead><tbody>' +
+    msgs.map(m => `<tr><td>${escapeHtml(m.name)}</td><td>${escapeHtml(m.email)}</td><td>${escapeHtml(m.subject||'-')}</td><td>${formatDate(m.created_at)}</td><td><span class="status-badge ${m.status==='new'?'status-new':'status-read'}">${m.status}</span></td></tr>`).join('') +
+    '</tbody></table>';
+}
+
+function renderMessages(msgs) {
+  const el = document.getElementById('messagesList');
+  if (!msgs.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No messages yet. Messages submitted through the Contact Us form will appear here automatically.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>' +
+    msgs.map(m => `<tr>
+      <td>${escapeHtml(m.name)}</td>
+      <td><a href="mailto:${escapeHtml(m.email)}">${escapeHtml(m.email)}</a></td>
+      <td>${escapeHtml(m.mobile||'-')}</td>
+      <td>${escapeHtml(m.subject||'-')}</td>
+      <td style="max-width:220px;font-size:0.85rem;">${escapeHtml(m.message)}</td>
+      <td>${formatDate(m.created_at)}</td>
+      <td><span class="status-badge ${m.status==='new'?'status-new':'status-read'}">${m.status}</span></td>
+      <td style="white-space:nowrap;">
+        ${m.status==='new' ? `<button class="btn-sm btn-sm-green" onclick="markMessageRead('${m.id}')">✓ Read</button>` : ''}
+        <button class="btn-danger btn-sm" onclick="deleteRow('contact_messages','${m.id}','message')">Delete</button>
+      </td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+async function markMessageRead(id) {
+  const { error } = await supabaseClient.from('contact_messages').update({ status: 'read' }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message); return; }
+  showToast('Marked as read');
+  loadMessages();
+}
+
+// =====================================================
+// VOLUNTEERS
+// =====================================================
+async function loadVolunteers() {
+  const { data, error } = await supabaseClient
+    .from('volunteer_applications')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) { console.error(error); return; }
+
+  document.getElementById('volCount').textContent = data.length;
+  renderOverviewVolunteers(data.slice(0, 5));
+  renderVolunteers(data);
+}
+
+function renderOverviewVolunteers(vols) {
+  const el = document.getElementById('overviewVolunteers');
+  if (!vols.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No volunteer registrations yet.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Name</th><th>Email</th><th>City</th><th>Date</th><th>Status</th></tr></thead><tbody>' +
+    vols.map(v => `<tr><td>${escapeHtml(v.name)}</td><td>${escapeHtml(v.email)}</td><td>${escapeHtml(v.city||'-')}</td><td>${formatDate(v.created_at)}</td><td><span class="status-badge status-new">${v.status}</span></td></tr>`).join('') +
+    '</tbody></table>';
+}
+
+function renderVolunteers(vols) {
+  const el = document.getElementById('volunteersList');
+  if (!vols.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No registrations yet. Registrations from the Volunteer page will appear here.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>City</th><th>Areas</th><th>Availability</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>' +
+    vols.map(v => `<tr>
+      <td>${escapeHtml(v.name)}</td>
+      <td><a href="mailto:${escapeHtml(v.email)}">${escapeHtml(v.email)}</a></td>
+      <td>${escapeHtml(v.mobile||'-')}</td>
+      <td>${escapeHtml(v.city||'-')}</td>
+      <td style="font-size:0.82rem;">${escapeHtml(v.area_of_interest||'-')}</td>
+      <td>${escapeHtml(v.availability||'-')}</td>
+      <td>${formatDate(v.created_at)}</td>
+      <td>
+        <select onchange="updateVolunteerStatus('${v.id}',this.value)" style="font-size:0.8rem;padding:4px;">
+          <option value="new" ${v.status==='new'?'selected':''}>New</option>
+          <option value="contacted" ${v.status==='contacted'?'selected':''}>Contacted</option>
+          <option value="onboarded" ${v.status==='onboarded'?'selected':''}>Onboarded</option>
+          <option value="rejected" ${v.status==='rejected'?'selected':''}>Rejected</option>
+        </select>
+      </td>
+      <td><button class="btn-danger btn-sm" onclick="deleteRow('volunteer_applications','${v.id}','volunteer application')">Delete</button></td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+async function updateVolunteerStatus(id, status) {
+  const { error } = await supabaseClient.from('volunteer_applications').update({ status }).eq('id', id);
+  if (error) { showToast('Error: ' + error.message); return; }
+  showToast('Status updated');
+}
+
+// =====================================================
+// DONATIONS
+// =====================================================
+async function loadDonations() {
+  const { data, error } = await supabaseClient
+    .from('donations')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) { console.error(error); return; }
+
+  const totalPaid = data.filter(d => d.status === 'paid').reduce((sum, d) => sum + Number(d.amount), 0);
+  document.getElementById('donationTotal').textContent = '₹' + totalPaid.toLocaleString('en-IN');
+
+  renderDonations(data);
+}
+
+function renderDonations(donations) {
+  const el = document.getElementById('donationsList');
+  if (!donations.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No donations yet. Donations made through the Donate page will appear here.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Donor</th><th>Email</th><th>Phone</th><th>Amount</th><th>Status</th><th>Payment ID</th><th>Date</th></tr></thead><tbody>' +
+    donations.map(d => `<tr>
+      <td>${escapeHtml(d.donor_name||'Anonymous')}</td>
+      <td>${escapeHtml(d.donor_email||'-')}</td>
+      <td>${escapeHtml(d.donor_phone||'-')}</td>
+      <td>₹${Number(d.amount).toLocaleString('en-IN')}</td>
+      <td><span class="status-badge ${d.status==='paid'?'status-read':'status-new'}">${d.status}</span></td>
+      <td style="font-size:0.78rem;">${escapeHtml(d.razorpay_payment_id||'-')}</td>
+      <td>${formatDate(d.created_at)}</td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+// =====================================================
+// GALLERY
+// =====================================================
+async function loadGallery() {
+  const { data, error } = await supabaseClient
+    .from('gallery_images')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  if (error) { console.error(error); return; }
+  renderGallery(data);
+}
+
+function renderGallery(images) {
+  const el = document.getElementById('adminGallery');
+  if (!images.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No images yet. Upload some above.</p>'; return; }
+  el.innerHTML = '';
+  images.forEach(img => {
+    const div = document.createElement('div');
+    div.className = 'admin-gitem';
+    div.innerHTML = `
+      <img src="${img.image_url}" alt="${escapeHtml(img.caption||'')}">
+      <button class="edit-gal-btn" title="Edit" onclick='openGalleryEdit(${JSON.stringify(img).replace(/'/g,"&#39;")})'>✏️</button>
+      <button class="del-btn" title="Delete" onclick="deleteGalleryImage('${img.id}','${img.image_url}')">×</button>
+      <div class="gal-meta">
+        <strong>${escapeHtml(img.caption||'Untitled')}</strong>
+        <span>${escapeHtml(img.category||'-')}</span>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+function openGalleryEdit(img) {
+  document.getElementById('galEditId').value = img.id;
+  document.getElementById('galEditCaption').value = img.caption || '';
+  document.getElementById('galEditCategory').value = img.category || 'education';
+  document.getElementById('galEditPreview').src = img.image_url;
+  document.getElementById('galEditModal').classList.add('open');
+}
+
+function closeGalleryEdit() {
+  document.getElementById('galEditModal').classList.remove('open');
+}
+
+async function saveGalleryEdit() {
+  const id = document.getElementById('galEditId').value;
+  const caption = document.getElementById('galEditCaption').value.trim();
+  const category = document.getElementById('galEditCategory').value;
+  const btn = document.getElementById('galEditSaveBtn');
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    const { error } = await supabaseClient
+      .from('gallery_images')
+      .update({ caption: caption || null, category })
+      .eq('id', id);
+    if (error) throw error;
+    showToast('Image updated!');
+    closeGalleryEdit();
+    loadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast('Update failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Save Changes';
+  }
+}
+
+// Close modal when clicking outside it
+document.getElementById('galEditModal').addEventListener('click', function(e) {
+  if (e.target === this) closeGalleryEdit();
+});
+
+async function uploadGalleryImage() {
+  const fileInput = document.getElementById('galFile');
+  const title = document.getElementById('galTitle').value.trim();
+  const category = document.getElementById('galCategory').value.trim() || 'education';
+  const btn = document.getElementById('galUploadBtn');
+
+  if (!fileInput.files.length) { showToast('Please select an image file'); return; }
+
+  const file = fileInput.files[0];
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
+
+  btn.disabled = true;
+  btn.textContent = 'Uploading...';
+
+  try {
+    const { error: uploadError } = await supabaseClient.storage
+      .from('Gallery')
+      .upload(fileName, file);
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabaseClient.storage.from('Gallery').getPublicUrl(fileName);
+
+    const { error: insertError } = await supabaseClient.from('gallery_images').insert({
+      caption: title || null,
+      image_url: urlData.publicUrl,
+      category: category,
+      display_order: 0
+    });
+    if (insertError) throw insertError;
+
+    showToast('Image uploaded!');
+    document.getElementById('galTitle').value = '';
+    document.getElementById('galCategory').value = '';
+    fileInput.value = '';
+    loadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast('Upload failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📤 Upload';
+  }
+}
+
+async function deleteGalleryImage(id, url) {
+  if (!confirm('Delete this image? This cannot be undone.')) return;
+
+  // Extract storage path from public URL
+  const path = url.split('/Gallery/').pop();
+
+  try {
+    await supabaseClient.storage.from('Gallery').remove([path]);
+    const { error } = await supabaseClient.from('gallery_images').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Image deleted');
+    loadGallery();
+  } catch (err) {
+    console.error(err);
+    showToast('Delete failed: ' + err.message);
+  }
+}
+
+// =====================================================
+// COMMITTEE
+// =====================================================
+async function loadCommittee() {
+  const { data, error } = await supabaseClient
+    .from('committee_members')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  if (error) { console.error(error); return; }
+  renderCommittee(data);
+}
+
+function renderCommittee(members) {
+  const el = document.getElementById('committeeList');
+  if (!members.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No committee members yet. Add some above.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Photo</th><th>Name</th><th>Role</th><th>Phone</th><th>Address</th><th>Order</th><th>Actions</th></tr></thead><tbody>' +
+    members.map(m => `<tr>
+      <td>${m.photo_url ? `<img src="${m.photo_url}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">` : '-'}</td>
+      <td>${escapeHtml(m.name)}</td>
+      <td>${escapeHtml(m.role)}</td>
+      <td>${escapeHtml(m.phone||'-')}</td>
+      <td style="max-width:180px;font-size:0.82rem;">${escapeHtml(m.address||'-')}</td>
+      <td>${m.display_order}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn-sm btn-sm-green" onclick='editCommitteeMember(${JSON.stringify(m).replace(/'/g,"&#39;")})'>Edit</button>
+        <button class="btn-danger btn-sm" onclick="deleteRow('committee_members','${m.id}','committee member')">Delete</button>
+      </td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+function editCommitteeMember(m) {
+  document.getElementById('commId').value = m.id;
+  document.getElementById('commName').value = m.name;
+  document.getElementById('commRole').value = m.role;
+  document.getElementById('commOccupation').value = m.occupation || '';
+  document.getElementById('commPhone').value = m.phone || '';
+  document.getElementById('commEmail').value = m.email || '';
+  document.getElementById('commAddress').value = m.address || '';
+  document.getElementById('commDob').value = m.dob || '';
+  document.getElementById('commBio').value = m.bio || '';
+  document.getElementById('commOrder').value = m.display_order || 0;
+  document.getElementById('commSaveBtn').textContent = '💾 Update Member';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetCommitteeForm() {
+  document.getElementById('commId').value = '';
+  document.getElementById('commName').value = '';
+  document.getElementById('commRole').value = '';
+  document.getElementById('commOccupation').value = '';
+  document.getElementById('commPhone').value = '';
+  document.getElementById('commEmail').value = '';
+  document.getElementById('commAddress').value = '';
+  document.getElementById('commDob').value = '';
+  document.getElementById('commBio').value = '';
+  document.getElementById('commOrder').value = 0;
+  document.getElementById('commFile').value = '';
+  document.getElementById('commSaveBtn').textContent = '💾 Save Member';
+}
+
+async function saveCommitteeMember() {
+  const id = document.getElementById('commId').value;
+  const name = document.getElementById('commName').value.trim();
+  const role = document.getElementById('commRole').value.trim();
+  const occupation = document.getElementById('commOccupation').value.trim();
+  const phone = document.getElementById('commPhone').value.trim();
+  const email = document.getElementById('commEmail').value.trim();
+  const address = document.getElementById('commAddress').value.trim();
+  const dob = document.getElementById('commDob').value.trim();
+  const bio = document.getElementById('commBio').value.trim();
+  const order = parseInt(document.getElementById('commOrder').value) || 0;
+  const fileInput = document.getElementById('commFile');
+  const btn = document.getElementById('commSaveBtn');
+
+  if (!name || !role) { showToast('Name and role are required'); return; }
+  if (!phone) { showToast('Phone number is required'); return; }
+  if (!address) { showToast('Address is required'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    let photo_url = undefined;
+
+    if (fileInput.files.length) {
+      const file = fileInput.files[0];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${fileExt}`;
+      const { error: uploadError } = await supabaseClient.storage.from('committee').upload(fileName, file);
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabaseClient.storage.from('committee').getPublicUrl(fileName);
+      photo_url = urlData.publicUrl;
+    }
+
+    const payload = {
+      name, role, occupation: occupation || null, phone, email: email || null,
+      address, dob: dob || null, bio: bio || null, display_order: order
+    };
+    if (photo_url) payload.photo_url = photo_url;
+
+    let error;
+    if (id) {
+      ({ error } = await supabaseClient.from('committee_members').update(payload).eq('id', id));
+    } else {
+      ({ error } = await supabaseClient.from('committee_members').insert(payload));
+    }
+    if (error) throw error;
+
+    showToast(id ? 'Member updated!' : 'Member added!');
+    resetCommitteeForm();
+    loadCommittee();
+  } catch (err) {
+    console.error(err);
+    showToast('Save failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    if (!document.getElementById('commId').value) btn.textContent = '💾 Save Member';
+  }
+}
+
+// =====================================================
+// ANNUAL REPORTS
+// =====================================================
+async function loadReports() {
+  const { data, error } = await supabaseClient
+    .from('annual_reports')
+    .select('*')
+    .order('year', { ascending: false });
+
+  if (error) { console.error(error); return; }
+  renderReports(data);
+}
+
+function renderReports(reports) {
+  const el = document.getElementById('reportsList');
+  if (!reports.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No reports uploaded yet.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Title</th><th>Year</th><th>Link</th><th>Actions</th></tr></thead><tbody>' +
+    reports.map(r => `<tr>
+      <td>${escapeHtml(r.title)}</td>
+      <td>${escapeHtml(r.year)}</td>
+      <td><a href="${r.file_url}" target="_blank">View PDF</a></td>
+      <td><button class="btn-danger btn-sm" onclick="deleteReport('${r.id}','${r.file_url}')">Delete</button></td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+async function uploadReport() {
+  const title = document.getElementById('repTitle').value.trim();
+  const year = document.getElementById('repYear').value.trim();
+  const fileInput = document.getElementById('repFile');
+  const btn = document.getElementById('repUploadBtn');
+
+  if (!title || !year || !fileInput.files.length) { showToast('Title, year and PDF file are required'); return; }
+
+  const file = fileInput.files[0];
+  const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g,'_')}`;
+
+  btn.disabled = true;
+  btn.textContent = 'Uploading...';
+
+  try {
+    const { error: uploadError } = await supabaseClient.storage.from('Reports').upload(fileName, file);
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabaseClient.storage.from('Reports').getPublicUrl(fileName);
+
+    const { error: insertError } = await supabaseClient.from('annual_reports').insert({
+      title, year, file_url: urlData.publicUrl
+    });
+    if (insertError) throw insertError;
+
+    showToast('Report uploaded!');
+    document.getElementById('repTitle').value = '';
+    document.getElementById('repYear').value = '';
+    fileInput.value = '';
+    loadReports();
+  } catch (err) {
+    console.error(err);
+    showToast('Upload failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📤 Upload';
+  }
+}
+
+async function deleteReport(id, url) {
+  if (!confirm('Delete this report? This cannot be undone.')) return;
+  const path = url.split('/Reports/').pop();
+  try {
+    await supabaseClient.storage.from('Reports').remove([path]);
+    const { error } = await supabaseClient.from('annual_reports').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Report deleted');
+    loadReports();
+  } catch (err) {
+    console.error(err);
+    showToast('Delete failed: ' + err.message);
+  }
+}
+
+// =====================================================
+// BANK ACCOUNTS
+// =====================================================
+async function loadBankAccountsAdmin() {
+  const { data, error } = await supabaseClient
+    .from('bank_accounts')
+    .select('*')
+    .order('display_order', { ascending: true });
+
+  if (error) { console.error(error); return; }
+  renderBankAccountsAdmin(data);
+}
+
+function renderBankAccountsAdmin(accounts) {
+  const el = document.getElementById('bankList');
+  if (!accounts.length) { el.innerHTML = '<p style="color:var(--gray);font-size:0.9rem;">No bank accounts yet. Add one above.</p>'; return; }
+  el.innerHTML = '<table class="dash-table"><thead><tr><th>Label</th><th>Account No.</th><th>Bank</th><th>IFSC</th><th>Order</th><th>Actions</th></tr></thead><tbody>' +
+    accounts.map(b => `<tr>
+      <td>${escapeHtml(b.label)}</td>
+      <td>${escapeHtml(b.account_number)}</td>
+      <td>${escapeHtml(b.bank_name)}</td>
+      <td>${escapeHtml(b.ifsc)}</td>
+      <td>${b.display_order}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn-sm btn-sm-green" onclick='editBankAccount(${JSON.stringify(b).replace(/'/g,"&#39;")})'>Edit</button>
+        <button class="btn-danger btn-sm" onclick="deleteRow('bank_accounts','${b.id}','bank account')">Delete</button>
+      </td>
+    </tr>`).join('') +
+    '</tbody></table>';
+}
+
+function editBankAccount(b) {
+  document.getElementById('bankId').value = b.id;
+  document.getElementById('bankLabel').value = b.label;
+  document.getElementById('bankAccName').value = b.account_name;
+  document.getElementById('bankAccNumber').value = b.account_number;
+  document.getElementById('bankName').value = b.bank_name;
+  document.getElementById('bankBranch').value = b.branch;
+  document.getElementById('bankIfsc').value = b.ifsc;
+  document.getElementById('bankAccType').value = b.account_type;
+  document.getElementById('bankOrder').value = b.display_order || 0;
+  document.getElementById('bankFormTitle').textContent = 'Update Bank Account';
+  document.getElementById('bankSaveBtn').textContent = '💾 Update Bank Account';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetBankForm() {
+  document.getElementById('bankId').value = '';
+  document.getElementById('bankLabel').value = '';
+  document.getElementById('bankAccName').value = '';
+  document.getElementById('bankAccNumber').value = '';
+  document.getElementById('bankName').value = '';
+  document.getElementById('bankBranch').value = '';
+  document.getElementById('bankIfsc').value = '';
+  document.getElementById('bankAccType').value = '';
+  document.getElementById('bankOrder').value = 0;
+  document.getElementById('bankFormTitle').textContent = 'Add / Update Bank Account';
+  document.getElementById('bankSaveBtn').textContent = '💾 Save Bank Account';
+}
+
+async function saveBankAccount() {
+  const id = document.getElementById('bankId').value;
+  const label = document.getElementById('bankLabel').value.trim();
+  const account_name = document.getElementById('bankAccName').value.trim();
+  const account_number = document.getElementById('bankAccNumber').value.trim();
+  const bank_name = document.getElementById('bankName').value.trim();
+  const branch = document.getElementById('bankBranch').value.trim();
+  const ifsc = document.getElementById('bankIfsc').value.trim();
+  const account_type = document.getElementById('bankAccType').value.trim();
+  const display_order = parseInt(document.getElementById('bankOrder').value) || 0;
+  const btn = document.getElementById('bankSaveBtn');
+
+  if (!label || !account_name || !account_number || !bank_name || !branch || !ifsc || !account_type) {
+    showToast('All fields except Display Order are required');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  try {
+    const payload = { label, account_name, account_number, bank_name, branch, ifsc, account_type, display_order };
+    let error;
+    if (id) {
+      ({ error } = await supabaseClient.from('bank_accounts').update(payload).eq('id', id));
+    } else {
+      ({ error } = await supabaseClient.from('bank_accounts').insert(payload));
+    }
+    if (error) throw error;
+
+    showToast(id ? 'Bank account updated!' : 'Bank account added!');
+    resetBankForm();
+    loadBankAccountsAdmin();
+  } catch (err) {
+    console.error(err);
+    showToast('Save failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    if (!document.getElementById('bankId').value) btn.textContent = '💾 Save Bank Account';
+  }
+}
+
+// =====================================================
+// ACCOUNT SETTINGS — CHANGE PASSWORD
+// =====================================================
+async function changeAdminPassword() {
+  const currentPwd = document.getElementById('currentPwd').value;
+  const p1 = document.getElementById('newPwd1').value;
+  const p2 = document.getElementById('newPwd2').value;
+  const btn = document.getElementById('changePwdBtn');
+
+  if (!currentPwd) { showToast('Please enter your current password'); return; }
+  if (!p1 || p1.length < 6) { showToast('New password must be at least 6 characters'); return; }
+  if (p1 !== p2) { showToast('New passwords do not match'); return; }
+  if (currentPwd === p1) { showToast('New password must be different from current password'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+
+  try {
+    // Step 1: verify current password by re-authenticating
+    const { data: userData } = await supabaseClient.auth.getUser();
+    const email = userData.user.email;
+
+    const { error: signInError } = await supabaseClient.auth.signInWithPassword({
+      email, password: currentPwd
+    });
+
+    if (signInError) {
+      showToast('❌ Current password is incorrect');
+      btn.disabled = false;
+      btn.textContent = '🔐 Update Password';
+      return;
+    }
+
+    // Step 2: current password verified — now update to new password
+    btn.textContent = 'Updating...';
+    const { error: updateError } = await supabaseClient.auth.updateUser({ password: p1 });
+    if (updateError) throw updateError;
+
+    showToast('✅ Password updated successfully!');
+    document.getElementById('currentPwd').value = '';
+    document.getElementById('newPwd1').value = '';
+    document.getElementById('newPwd2').value = '';
+  } catch (err) {
+    console.error(err);
+    showToast('Update failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔐 Update Password';
+  }
+}
+
+// =====================================================
+// SHARED HELPERS
+// =====================================================
+async function deleteRow(table, id, label) {
+  if (!confirm(`Delete this ${label}? This cannot be undone.`)) return;
+  const { error } = await supabaseClient.from(table).delete().eq('id', id);
+  if (error) { showToast('Error: ' + error.message); return; }
+  showToast(label.charAt(0).toUpperCase() + label.slice(1) + ' deleted');
+  loadData();
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function formatDate(iso) {
+  if (!iso) return '-';
+  return new Date(iso).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function showToast(msg) {
+  let t = document.querySelector('.toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+</script>
+</body>
+</html>
