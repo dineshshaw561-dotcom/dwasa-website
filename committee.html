@@ -132,8 +132,8 @@ function initial(name) { return (name || '?').trim().charAt(0).toUpperCase(); }
 function leadCardHtml(m, altColor) {
   return `
     <div class="lead-card aos">
-      <div class="lead-avatar"${altColor ? ` style="background:linear-gradient(135deg,#0e3d1a,var(--green-dark));"` : ''}>${initial(m.name)}</div>
-      <div class="role-badge">${m.role}</div>
+    <div class="lead-avatar"${altColor ? ` style="background:linear-gradient(135deg,#0e3d1a,var(--green-dark));"` : ''}>${m.photo_url ? `<img src="${m.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : initial(m.name)}</div>
+    <div class="role-badge">${m.role}</div>
       <h2>${m.name}</h2>
       <div class="occ">${m.occupation || ''}</div>
       <div class="detail-row"><span class="dk">Address</span><span class="dv">${m.address}</span></div>
@@ -146,7 +146,7 @@ function leadCardHtml(m, altColor) {
 function officerCardHtml(m) {
   return `
     <div class="member-card aos">
-      <div class="member-avatar">${initial(m.name)}</div>
+      <div class="member-avatar">${m.photo_url ? `<img src="${m.photo_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : initial(m.name)}</div>
       <div class="role">${m.role}</div>
       <h3>${m.name}</h3>
       <div class="info">
