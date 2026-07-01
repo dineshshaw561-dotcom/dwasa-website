@@ -145,32 +145,24 @@ async function loadGalleryPublic() {
 allImages = data;
 renderGallery();
 
-function renderGallery() {
-  const filtered = currentFilter === 'all'
-    ? allImages
-    : allImages.filter(img => img.category === currentFilter);
-
-  visibleImages = filtered.map(img => img.image_url);
-
-  if (!filtered.length) {
-    galleryEl.innerHTML = '<p style="color:var(--gray);">No photos in this category yet.</p>';
-    return;
+function renderGallery() 
+{ const filtered = currentFilter === 'all'
+  ? allImages
+  : allImages.filter(img => img.category === currentFilter); 
+ visibleImages = filtered.map(img => img.image_url); 
+ if (!filtered.length)
+ { galleryEl.innerHTML = '<p style="color:var(--gray);">No photos in this category yet.</p>'; 
+  return;
+ } 
+ galleryEl.innerHTML = filtered.map((img, i) => 
+   if (typeof initAOS === 'function') initAOS(); 
+ <div class="gallery-item" onclick="openLB(${i})"> 
+   <img src="${img.image_url}" alt="${(img.caption || 
+   'DWASA gallery photo').replace(/"/g,'&quot;')}"> 
+  <div class="gallery-overlay"><span>🔍</span>
+  <p>${img.caption || ''}</p>
+  </div> </div>).join(''); 
   }
-
-  galleryEl.innerHTML = filtered.map((img, i) => `
-    <div class="gallery-item" onclick="openLB(${i})">
-      <img src="${img.image_url}" alt="${(img.caption || 'DWASA gallery photo').replace(/"/g, '&quot;')}">
-      <div class="gallery-overlay">
-        <span>🔍</span>
-        <p>${img.caption || ''}</p>
-      </div>
-    </div>
-  `).join('');
-
-  if (typeof initAOS === 'function') {
-    initAOS();
-  }
-}
 
 function openLB(idx) {
   currentIdx = idx;
