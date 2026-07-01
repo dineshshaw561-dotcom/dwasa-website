@@ -155,11 +155,12 @@ function renderGallery() {
   }
 
   galleryEl.innerHTML = filtered.map((img, i) => `
-    if (typeof initAOS === 'function') initAOS();
+  
       <div class="gallery-item" onclick="openLB(${i})">
         <img src="${img.image_url}" alt="${(img.caption || 'DWASA gallery photo').replace(/"/g,'&quot;')}">
         <div class="gallery-overlay"><span>🔍</span><p>${img.caption || ''}</p></div>
       </div>`).join('');
+      if (typeof initAOS === 'function') initAOS();
   }
 
 function openLB(idx) {
