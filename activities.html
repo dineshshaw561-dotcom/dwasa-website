@@ -102,8 +102,9 @@
   <div class="container">
     <!-- TAB SWITCHER -->
     <div class="report-tabs">
-      <button class="report-tab active" onclick="switchReport('2022')">Annual Report 2022–23</button>
-      <button class="report-tab" onclick="switchReport('2024')">Annual Report 2024–25</button>
+       <button class="report-tab active" onclick="switchReport('2022', event)">Annual Report 2022–23</button>
+       <button class="report-tab" onclick="switchReport('2023', event)">Annual Report 2023–24</button>
+       <button class="report-tab" onclick="switchReport('2024', event)">Annual Report 2024–25</button>
     </div>
 
     <!-- ============ 2022-23 ============ -->
@@ -118,6 +119,7 @@
           <div class="year">2022<br>–23</div>
           <div class="lbl">Annual Report</div>
         </div>
+        <div id="download-2022" style="margin-bottom:24px;"></div>
       </div>
 
       <div class="secretary-quote-box aos">
@@ -203,6 +205,36 @@
         </div>
       </div>
     </div><!-- end 2022-23 -->
+
+    <!-- ============ 2023-24 ============ -->
+<div class="report-section" id="report-2023">
+  <div class="report-header-card aos">
+    <div>
+      <div class="tag" style="background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9);">Annual Report</div>
+      <h2>Programmes Intervention: 2023–2024</h2>
+      <p>A Non-Governmental Voluntary Social Organisation<br>Regd. No. S/89627 of 1997-98 | Reg. Office: 156A/58A, B.T. Road, Kolkata – 700108</p>
+    </div>
+    <div class="report-badge">
+      <div class="year">2023<br>–24</div>
+      <div class="lbl">Annual Report</div>
+    </div>
+  </div>
+
+  <div id="download-2023" style="margin-bottom:24px;"></div>
+
+  <div class="secretary-quote-box aos">
+    <p>"Our work in 2023–24 continued to reflect our unwavering commitment to the communities we serve across West Bengal and Jharkhand."</p>
+    <div class="attr">— Dinesh Kumar Saw, Secretary</div>
+  </div>
+
+  <div class="activity-block aos">
+    <div class="act-num">01</div>
+    <div class="act-content">
+      <h3>Annual Report 2023–24</h3>
+      <p>The full details of DWASA's programmes for 2023–2024 are available in the downloadable PDF report above.</p>
+    </div>
+  </div>
+</div><!-- end 2023-24 -->
 
     <!-- ============ 2024-25 ============ -->
     <div class="report-section" id="report-2024">
@@ -312,18 +344,44 @@
 </footer>
 
 <div class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script src="main.js"></script>
 <script>
-function switchReport(year) {
+function switchReport(year, e) {
   document.querySelectorAll('.report-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('report-' + year).classList.add('active');
-  event.target.classList.add('active');
-  // Re-trigger AOS for newly visible elements
+  e.target.classList.add('active');
   document.querySelectorAll('#report-' + year + ' .aos').forEach(el => {
     el.classList.add('visible');
   });
 }
+
+async function loadReportDownloads() {
+  const { data, error } = await supabaseClient
+    .from('annual_reports')
+    .select('*')
+    .order('year', { ascending: false });
+
+  if (error || !data || !data.length) return;
+
+  data.forEach(report => {
+    const yearKey = String(report.year).substring(0, 4);
+    const el = document.getElementById('download-' + yearKey);
+    if (!el || !report.file_url) return;
+    el.innerHTML = `
+      <a href="${report.file_url}" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:10px;
+        background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);
+        border-radius:8px;padding:12px 20px;color:var(--white);
+        font-weight:600;text-decoration:none;font-size:0.95rem;">
+        📄 Download PDF Report — ${report.title || report.year}
+      </a>`;
+  });
+}
+
+window.addEventListener('load', loadReportDownloads);
 </script>
 </body>
 </html>
